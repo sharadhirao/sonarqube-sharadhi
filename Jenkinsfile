@@ -15,3 +15,16 @@ pipeline {
        } //end stages
 
 } //end pipeline
+stage ('Docker Build') {
+            steps {
+                script { 
+                    dockerImage = docker.build "java-file" + ":${BUILD_NUMBER}" 
+                }
+            }
+       }
+       stage('Testing Trivy'){
+           steps{
+              sh 'trivy image java-file:${BUILD_NUMBER} > $WORKSPACE/$TRIVY_PATH'
+              sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL java-file:${BUILD_NUMBER} > $WORKSPACE/$TRIVY_PATH'
+           }           
+       }
