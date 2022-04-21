@@ -4,7 +4,7 @@ pipeline {
        stages {
            stage("Checkout Code") {
                steps {
-                 git branch: 'master', credentialsId: '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', url: 'https://github.com/raosharadhi/Final-Devsecops-test.git'
+                 git branch: 'master', credentialsId: '0172ac82-90f9-483f-a088-5be993d8079b', url: 'https://github.com/raosharadhi/Final-Devsecops-test.git'
                } //step end
            } //checkout stage end
            stage("Cleaning workspace") {
