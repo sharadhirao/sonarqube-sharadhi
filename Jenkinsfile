@@ -4,27 +4,22 @@ pipeline {
        stages {
            stage("Checkout Code") {
                steps {
-                 git branch: 'master', credentialsId: 'e459e9ba-2ded-4964-9263-51c8a2f43a94', url: 'https://github.com/sharadhirao/sonarqube-sharadhi.git'
+                 git branch: 'master', credentialsId: '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', url: 'https://github.com/raosharadhi/Final-Devsecops-test.git'
                } //step end
            } //checkout stage end
            stage("Cleaning workspace") {
                steps {
-                    test()         
+                    maven-build()         
                }
            } //end cleaning stage
        } //end stages
+       stage("Docker build and test")
+       {
+              steps {
+              docker('java-file')
+              }
+              
+       }
 
 } //end pipeline
-stage ('Docker Build') {
-            steps {
-                script { 
-                    dockerImage = docker.build "java-file" + ":${BUILD_NUMBER}" 
-                }
-            }
-       }
-       stage('Testing Trivy'){
-           steps{
-              sh 'trivy image java-file:${BUILD_NUMBER} > $WORKSPACE/$TRIVY_PATH'
-              sh 'trivy image --exit-code 1 --severity HIGH,CRITICAL java-file:${BUILD_NUMBER} > $WORKSPACE/$TRIVY_PATH'
-           }           
-       }
+
